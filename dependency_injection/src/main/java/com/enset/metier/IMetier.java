@@ -1,0 +1,5 @@
+package com.enset.metier;
+
+public interface IMetier {
+    public double calcul();
+}
