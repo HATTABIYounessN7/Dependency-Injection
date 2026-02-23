@@ -1,0 +1,6 @@
+<beans>
+    <bean id="dao" class="com.enset.app.dao.DaoImpl"/>
+    <bean id="metier" class="com.enset.app.metier.MetierImpl">
+        <property name="dao" ref="dao" />
+    </bean>
+</beans>
