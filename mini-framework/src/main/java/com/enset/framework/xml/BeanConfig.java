@@ -19,6 +19,9 @@ public class BeanConfig {
     @XmlElement(name = "property")
     private List<Property> properties;
 
+    @XmlElement(name = "constructor-arg")
+    private List<ConstructorArg> constructorArgs;
+
     public String getId() {
         return id;
     }
@@ -30,4 +33,9 @@ public class BeanConfig {
     public List<Property> getProperties() {
         return properties;
     }
+
+    public List<ConstructorArg> getConstructorArgs() {
+        return constructorArgs;
+    }
+
 }

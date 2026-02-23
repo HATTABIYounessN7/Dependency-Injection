@@ -22,7 +22,21 @@ public class XmlApplicationContext implements ApplicationContext {
 
             for (BeanConfig beanConfig : config.getBeans()) {
                 Class<?> beanConfigClass = Class.forName(beanConfig.getClassName());
-                Object instance = beanConfigClass.getDeclaredConstructor().newInstance();
+                Object instance;
+                if (beanConfig.getConstructorArgs() != null
+                        && !beanConfig.getConstructorArgs().isEmpty()) {
+                    Object[] dependencies = beanConfig.getConstructorArgs().stream()
+                            .map(arg -> beans.get(arg.getRef())).toArray();
+
+                    Class<?>[] paramTypes = new Class[dependencies.length];
+                    for (int i = 0; i < dependencies.length; i++) {
+                        paramTypes[i] = dependencies[i].getClass().getInterfaces()[0];
+                    }
+
+                    instance = beanConfigClass.getConstructor(paramTypes).newInstance(dependencies);
+                } else {
+                    instance = beanConfigClass.getDeclaredConstructor().newInstance();
+                }
                 beans.put(beanConfig.getId(), instance);
             }
 
