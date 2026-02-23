@@ -1,6 +1,7 @@
 package com.enset.framework.core;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,11 +46,18 @@ public class XmlApplicationContext implements ApplicationContext {
                 if (beanConfig.getProperties() != null) {
                     for (Property property : beanConfig.getProperties()) {
                         Object dependency = beans.get(property.getRef());
-                        String setterName = "set" + property.getName().substring(0, 1).toUpperCase() +
-                                property.getName().substring(1);
-                        Method setter = targetBean.getClass()
-                                .getMethod(setterName, dependency.getClass().getInterfaces()[0]);
-                        setter.invoke(targetBean, dependency);
+
+                        try {
+                            String setterName = "set" + property.getName().substring(0, 1).toUpperCase()
+                                    + property.getName().substring(1);
+                            Method setter = targetBean.getClass().getMethod(setterName,
+                                    dependency.getClass().getInterfaces()[0]);
+                            setter.invoke(targetBean, dependency);
+                        } catch (NoSuchMethodException e) {
+                            Field field = targetBean.getClass().getDeclaredField(property.getName());
+                            field.setAccessible(true);
+                            field.set(targetBean, dependency);
+                        }
                     }
                 }
             }
