@@ -1,6 +1,6 @@
 # Rapport de Travaux Pratiques : Injection des Dépendances
 
-**Filière :** GLSID - Génie - Génie du Logiciel et des Systèmes Informatiques Distribués  
+**Filière :** GLSID - Génie du Logiciel et des Systèmes Informatiques Distribués  
 **Encadrant :** Mohamed YOUSSFI  
 **Étudiant(e) :** Youness HATTABI
 
